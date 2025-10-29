@@ -46,5 +46,9 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"dependencies": {
+		"react-redux": "^9.2.0",
+		"redux": "^5.0.1"
 	}
 }
