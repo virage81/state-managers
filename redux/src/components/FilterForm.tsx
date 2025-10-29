@@ -2,14 +2,10 @@ import { Formik } from 'formik';
 import { FormikConfig } from 'formik/dist/types';
 import { memo } from 'react';
 import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { FilterContactValues } from 'src/store/actions';
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
-export interface FilterFormValues {
-	name: string;
-	groupId: string;
-}
-
-interface FilterFormProps extends FormikConfig<Partial<FilterFormValues>> {
+interface FilterFormProps extends FormikConfig<Partial<FilterContactValues>> {
 	groupContactsList: GroupContactsDto[];
 }
 
