@@ -1,12 +1,17 @@
 import { combineReducers, createStore } from 'redux';
-import { contactsReducer } from './reducers/contactsReducer';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { contactsReducer } from './reducers';
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
 	contacts: contactsReducer,
 });
-export const store = createStore(reducers);
+const persistedReducer = persistReducer({ key: 'redux-storage', storage: storage }, rootReducer);
 
-export type RootState = ReturnType<typeof reducers>;
+export const store = createStore(persistedReducer);
+export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export type AppDispatch = typeof store.dispatch;
 export type AppStore = typeof store;

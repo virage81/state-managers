@@ -50,7 +50,7 @@ export const contactsReducer = (state = initialState, action: ProjectActions) =>
 		case FILTER_GROUP_CONTACTS_ACTION: {
 			const { groupContacts } = state;
 
-			const filteredGroupContacts = groupContacts.find(({ id }) => id === action.payload.id);
+			const filteredGroupContacts = groupContacts.find(({ id }) => id === action.payload.id) ?? null;
 			return { ...state, filteredGroupContacts };
 		}
 
