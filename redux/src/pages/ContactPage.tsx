@@ -3,16 +3,19 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { ContactCard } from 'src/components/ContactCard';
 import { Empty } from 'src/components/Empty';
+import { useAppSelector } from 'src/store/hooks';
 import { ContactDto } from 'src/types/dto/ContactDto';
-import { CommonPageProps } from './types';
 
-export const ContactPage: FC<CommonPageProps> = ({ contactsState }) => {
+export const ContactPage: FC = () => {
+	const { contacts } = useAppSelector(state => state.contacts);
+
 	const { contactId } = useParams<{ contactId: string }>();
+
 	const [contact, setContact] = useState<ContactDto>();
 
 	useEffect(() => {
-		setContact(() => contactsState[0].find(({ id }) => id === contactId));
-	}, [contactId]);
+		setContact(() => contacts.find(({ id }) => id === contactId));
+	}, [contactId, contacts]);
 
 	return (
 		<Row xxl={3}>
