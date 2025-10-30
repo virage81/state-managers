@@ -2,8 +2,9 @@ import { memo } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { ContactCard } from 'src/components/ContactCard';
 import { FilterForm } from 'src/components/FilterForm';
-import { filterContactsActionCreator, FilterContactValues } from 'src/store/actions';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { FilterContactValues } from 'src/store/contacts/';
+import { filterContacts } from 'src/store/contacts';
 
 export const ContactListPage = memo(() => {
 	const dispatch = useAppDispatch();
@@ -11,7 +12,7 @@ export const ContactListPage = memo(() => {
 	const { filteredContacts, groupContacts } = useAppSelector(state => state.contacts);
 
 	const onSubmit = (fv: Partial<FilterContactValues>) => {
-		dispatch(filterContactsActionCreator(fv));
+		dispatch(filterContacts(fv));
 	};
 
 	return (

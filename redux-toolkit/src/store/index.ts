@@ -1,17 +1,33 @@
-import { combineReducers, createStore } from 'redux';
-import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { contactsReducer } from './reducers';
+import contactsReducer from './contacts';
 
-const rootReducer = combineReducers({
-	contacts: contactsReducer,
+const persistedReducers = persistReducer(
+	{ key: 'redux-storage', storage: storage },
+	combineReducers({ contacts: contactsReducer })
+);
+
+export const store = configureStore({
+	reducer: persistedReducers,
+	devTools: true,
+	middleware(getDefaultMiddleware) {
+		return getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: [FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE],
+			},
+		});
+	},
 });
-const persistedReducer = persistReducer({ key: 'redux-storage', storage: storage }, rootReducer);
 
-export const store = createStore(persistedReducer);
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+// @ts-ignore
+window.persistor = persistor;
 
-export type RootState = ReturnType<typeof rootReducer>;
+type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
-export type AppStore = typeof store;
+type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();
