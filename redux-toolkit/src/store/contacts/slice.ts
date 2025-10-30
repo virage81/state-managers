@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DATA_CONTACT, DATA_GROUP_CONTACT } from 'src/__data__';
 import { ContactDto } from 'src/types/dto/ContactDto';
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
-import { FilterContactValues } from '.';
+import { FilterContactValues, getContacts, getGroupContacts } from '.';
 
 interface ContactsState {
 	contacts: ContactDto[];
@@ -11,11 +10,10 @@ interface ContactsState {
 	filteredGroupContacts: GroupContactsDto | null;
 	favoriteContacts: ContactDto[];
 }
-
 const initialState: ContactsState = {
-	contacts: DATA_CONTACT,
-	filteredContacts: DATA_CONTACT,
-	groupContacts: DATA_GROUP_CONTACT,
+	contacts: [],
+	filteredContacts: [],
+	groupContacts: [],
 	filteredGroupContacts: null,
 	favoriteContacts: [],
 };
@@ -25,24 +23,22 @@ export const contactsSlice = createSlice({
 	initialState,
 	reducers: {
 		filterContacts: (state, action: PayloadAction<Partial<FilterContactValues>>) => {
-			const { contacts } = state;
-
-			if (!Object.keys(action.payload).length) {
-				state.filteredContacts = contacts;
-			}
+			let filteredContacts = [...state.contacts];
 
 			if (action.payload.name) {
 				const fvName = action.payload.name.toLowerCase().trim();
-				state.filteredContacts = contacts.filter(({ name }) => name.toLowerCase().trim().indexOf(fvName) > -1);
+				filteredContacts = filteredContacts.filter(({ name }) => name.toLowerCase().trim().indexOf(fvName) > -1);
 			}
 
 			if (action.payload.groupId) {
 				const groupContacts = state.groupContacts.find(({ id }) => id === action.payload.groupId);
 
 				if (groupContacts) {
-					state.filteredContacts = contacts.filter(({ id }) => groupContacts.contactIds.includes(id));
+					filteredContacts = filteredContacts.filter(({ id }) => groupContacts.contactIds.includes(id));
 				}
 			}
+
+			state.filteredContacts = filteredContacts;
 		},
 
 		filterGroupContacts: (state, action: PayloadAction<{ id: GroupContactsDto['id'] }>) => {
@@ -54,9 +50,23 @@ export const contactsSlice = createSlice({
 		filterFavoriteContacts: state => {
 			const { contacts } = state;
 
-			const favoriteContactsIds = [DATA_CONTACT[0].id, DATA_CONTACT[1].id, DATA_CONTACT[2].id, DATA_CONTACT[3].id];
-
-			state.favoriteContacts = contacts.filter(({ id }) => favoriteContactsIds.includes(id));
+			state.favoriteContacts = contacts.slice(0, 4);
 		},
+	},
+	extraReducers: builder => {
+		builder.addMatcher(getContacts.matchFulfilled, (state, action: PayloadAction<ContactDto[]>) => {
+			state.contacts = action.payload;
+			state.filteredContacts = action.payload;
+		});
+		builder.addMatcher(getContacts.matchRejected, state => {
+			state.contacts = [];
+			state.filteredContacts = [];
+		});
+		builder.addMatcher(getGroupContacts.matchFulfilled, (state, action: PayloadAction<GroupContactsDto[]>) => {
+			state.groupContacts = action.payload;
+		});
+		builder.addMatcher(getGroupContacts.matchRejected, state => {
+			state.groupContacts = [];
+		});
 	},
 });
