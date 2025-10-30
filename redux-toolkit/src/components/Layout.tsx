@@ -1,11 +1,15 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
+import { useGetContactsQuery, useGetGroupContactsQuery } from 'src/store/contacts';
 import { MainMenu } from './MainMenu';
 
 export const Layout = () => {
 	const location = useLocation();
 	const pathNames = location.pathname.split('/').filter(x => x);
+
+	useGetContactsQuery();
+	useGetGroupContactsQuery();
 
 	return (
 		<Container>
