@@ -1,8 +1,8 @@
 import { memo, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { ContactCard } from 'src/components/ContactCard';
-import { filterFavoriteContactsActionCreator } from 'src/store/actions';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { filterFavoriteContacts } from 'src/store/contacts';
 
 export const FavoriteListPage = memo(() => {
 	const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ export const FavoriteListPage = memo(() => {
 	const { favoriteContacts } = useAppSelector(state => state.contacts);
 
 	useEffect(() => {
-		dispatch(filterFavoriteContactsActionCreator());
+		dispatch(filterFavoriteContacts());
 	}, []);
 
 	return (

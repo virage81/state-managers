@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import { ContactCard } from 'src/components/ContactCard';
 import { Empty } from 'src/components/Empty';
 import { GroupContactsCard } from 'src/components/GroupContactsCard';
-import { filterContactsActionCreator, filterGroupContactsActionCreator } from 'src/store/actions';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { filterContacts, filterGroupContacts } from 'src/store/contacts';
 
 export const GroupPage = memo(() => {
 	const dispatch = useAppDispatch();
@@ -16,11 +16,11 @@ export const GroupPage = memo(() => {
 
 	useEffect(() => {
 		if (!groupId) return;
-		dispatch(filterContactsActionCreator({ groupId }));
-		dispatch(filterGroupContactsActionCreator(groupId));
+		dispatch(filterContacts({ groupId }));
+		dispatch(filterGroupContacts({ id: groupId }));
 
 		return () => {
-			dispatch(filterContactsActionCreator({}));
+			dispatch(filterContacts({}));
 		};
 	}, [groupId]);
 
