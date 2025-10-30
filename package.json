@@ -4,7 +4,8 @@
 	"description": "This is a repo which contains a bunch of homework to learn how to work with state managers",
 	"main": "index.js",
 	"scripts": {
-		"redux": "npm start --prefix ./redux"
+		"redux": "npm start --prefix ./redux",
+		"redux-toolkit": "npm start --prefix ./redux-toolkit"
 	},
 	"keywords": [],
 	"author": "",
