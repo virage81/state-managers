@@ -1,4 +1,5 @@
 import { computed, flow, makeAutoObservable } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 import { ContactDto } from 'src/types/dto/ContactDto';
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 import { contactsApi } from './api';
@@ -15,6 +16,12 @@ class Store {
 	constructor() {
 		makeAutoObservable(this, {
 			favoriteContacts: computed,
+		});
+
+		makePersistable(this, {
+			name: 'contacts-store',
+			properties: ['contacts', 'groupContacts', 'filteredGroupContacts'],
+			storage: window.localStorage,
 		});
 	}
 

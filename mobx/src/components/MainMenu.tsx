@@ -9,12 +9,13 @@ export const MainMenu = () => {
 					<h1>Книга контактов</h1>
 				</Navbar.Brand>
 				<Nav className='me-auto'>
-					<Nav.Link>
-						<Link to='/groups'>Группы</Link>
-					</Nav.Link>
-					<Nav.Link>
-						<Link to='/favorite'>Favorite</Link>
-					</Nav.Link>
+					<Link to='/groups' className='my-auto mx-1'>
+						Группы
+					</Link>
+
+					<Link to='/favorite' className='my-auto mx-1'>
+						Favorite
+					</Link>
 				</Nav>
 			</Container>
 		</Navbar>
