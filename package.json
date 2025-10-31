@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"redux": "npm start --prefix ./redux",
-		"mobx": "npm start --prefix"
+		"mobx": "npm start --prefix ./mobx"
 	},
 	"keywords": [],
 	"author": "",
