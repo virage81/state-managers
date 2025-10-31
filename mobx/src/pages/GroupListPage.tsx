@@ -1,14 +1,12 @@
-import { memo } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Col, Row } from 'react-bootstrap';
 import { GroupContactsCard } from 'src/components/GroupContactsCard';
-import { useAppSelector } from 'src/store';
+import { contactsStore } from 'src/store/contacts-store';
 
-export const GroupListPage = memo(() => {
-	const { groupContacts } = useAppSelector(state => state.contacts);
-
+export const GroupListPage = observer(() => {
 	return (
 		<Row xxl={4}>
-			{groupContacts.map(groupContact => (
+			{contactsStore.groupContacts.map(groupContact => (
 				<Col key={groupContact.id}>
 					<GroupContactsCard groupContacts={groupContact} withLink />
 				</Col>

@@ -1,15 +1,20 @@
+import { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
-import { useGetContactsQuery, useGetGroupContactsQuery } from 'src/store/contacts';
+import { contactsStore } from 'src/store/contacts-store';
 import { MainMenu } from './MainMenu';
 
 export const Layout = () => {
 	const location = useLocation();
 	const pathNames = location.pathname.split('/').filter(x => x);
 
-	useGetContactsQuery();
-	useGetGroupContactsQuery();
+	useEffect(() => {
+		const req = async () => {
+			await Promise.all([contactsStore.getContacts(), contactsStore.getGroupContacts()]);
+		};
+		req();
+	}, []);
 
 	return (
 		<Container>
