@@ -1,13 +1,14 @@
+import { observer } from 'mobx-react-lite';
 import { FC, useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { ContactCard } from 'src/components/ContactCard';
 import { Empty } from 'src/components/Empty';
-import { useAppSelector } from 'src/store';
+import { contactsStore } from 'src/store/contacts-store';
 import { ContactDto } from 'src/types/dto/ContactDto';
 
-export const ContactPage: FC = () => {
-	const { contacts } = useAppSelector(state => state.contacts);
+export const ContactPage: FC = observer(() => {
+	const { contacts } = contactsStore;
 
 	const { contactId } = useParams<{ contactId: string }>();
 
@@ -22,4 +23,4 @@ export const ContactPage: FC = () => {
 			<Col className={'mx-auto'}>{contact ? <ContactCard contact={contact} /> : <Empty />}</Col>
 		</Row>
 	);
-};
+});

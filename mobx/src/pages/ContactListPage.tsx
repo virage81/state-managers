@@ -1,23 +1,21 @@
-import { memo, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { ContactCard } from 'src/components/ContactCard';
 import { FilterForm } from 'src/components/FilterForm';
-import { useAppDispatch, useAppSelector } from 'src/store';
-import { filterContacts } from 'src/store/contacts';
-import { FilterContactValues } from 'src/store/contacts/';
+import { contactsStore } from 'src/store/contacts-store';
+import { FilterContactValues } from 'src/store/contacts-store/';
 
-export const ContactListPage = memo(() => {
-	const dispatch = useAppDispatch();
-
-	const { filteredContacts, groupContacts } = useAppSelector(state => state.contacts);
+export const ContactListPage = observer(() => {
+	const { filteredContacts, groupContacts } = contactsStore;
 
 	const onSubmit = (fv: Partial<FilterContactValues>) => {
-		dispatch(filterContacts(fv));
+		contactsStore.filterContacts(fv);
 	};
 
 	useEffect(() => {
 		return () => {
-			dispatch(filterContacts({}));
+			contactsStore.filterContacts({});
 		};
 	}, []);
 

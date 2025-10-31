@@ -1,26 +1,24 @@
-import { memo, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { ContactCard } from 'src/components/ContactCard';
 import { Empty } from 'src/components/Empty';
 import { GroupContactsCard } from 'src/components/GroupContactsCard';
-import { useAppDispatch, useAppSelector } from 'src/store';
-import { filterContacts, filterGroupContacts } from 'src/store/contacts';
+import { contactsStore } from 'src/store/contacts-store';
 
-export const GroupPage = memo(() => {
-	const dispatch = useAppDispatch();
-
-	const { filteredContacts, filteredGroupContacts } = useAppSelector(state => state.contacts);
+export const GroupPage = observer(() => {
+	const { filteredContacts, filteredGroupContacts } = contactsStore;
 
 	const { groupId } = useParams<{ groupId: string }>();
 
 	useEffect(() => {
 		if (!groupId) return;
-		dispatch(filterContacts({ groupId }));
-		dispatch(filterGroupContacts({ id: groupId }));
+		contactsStore.filterContacts({ groupId });
+		contactsStore.filterGroupContacts({ id: groupId });
 
 		return () => {
-			dispatch(filterContacts({}));
+			contactsStore.filterContacts({});
 		};
 	}, [groupId]);
 
