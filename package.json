@@ -1,10 +1,11 @@
 {
 	"name": "state-managers",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"description": "This is a repo which contains a bunch of homework to learn how to work with state managers",
 	"main": "index.js",
 	"scripts": {
-		"redux": "npm start --prefix ./redux"
+		"redux": "npm start --prefix ./redux",
+		"mobx": "npm start --prefix"
 	},
 	"keywords": [],
 	"author": "",
