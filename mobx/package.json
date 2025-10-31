@@ -49,7 +49,7 @@
 	},
 	"dependencies": {
 		"mobx": "^6.15.0",
-		"mobx-react-lite": "^4.1.1",
-		"redux-persist": "^6.0.0"
+		"mobx-persist-store": "^1.1.8",
+		"mobx-react-lite": "^4.1.1"
 	}
 }
