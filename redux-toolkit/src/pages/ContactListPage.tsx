@@ -1,10 +1,10 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { ContactCard } from 'src/components/ContactCard';
 import { FilterForm } from 'src/components/FilterForm';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { FilterContactValues } from 'src/store/contacts/';
 import { filterContacts } from 'src/store/contacts';
+import { FilterContactValues } from 'src/store/contacts/';
 
 export const ContactListPage = memo(() => {
 	const dispatch = useAppDispatch();
@@ -14,6 +14,12 @@ export const ContactListPage = memo(() => {
 	const onSubmit = (fv: Partial<FilterContactValues>) => {
 		dispatch(filterContacts(fv));
 	};
+
+	useEffect(() => {
+		return () => {
+			dispatch(filterContacts({}));
+		};
+	}, []);
 
 	return (
 		<Row xxl={1}>
